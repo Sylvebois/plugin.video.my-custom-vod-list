@@ -52,6 +52,11 @@ vodChannels = {
     'icon': 'okoo_logo.svg',
     'geoblocked': 'FR'
   },
+  'Rakuten TV': {
+    'url': 'https://rakuten.tv',
+    'icon': 'rakuten_logo.svg',
+    'geoblocked': False
+  },
   'RTL Play': {
     'url': 'https://www.rtlplay.be/',
     'icon': 'rtlplay_logo.png',
@@ -96,7 +101,10 @@ def show_name_list():
 def open_url(name):
   data = vodChannels.get(name)
   if data:
-    subprocess.Popen(['firefox', '--kiosk', data['url']])
+    if data['geoblocked'] == 'FR':
+      subprocess.Popen(['firefox', '-P VPN-FR', data['url']])
+    else:
+      subprocess.Popen(['firefox', '--kiosk', data['url']])
 
 def router(paramstring):
   params = dict(parse_qsl(paramstring[1:]))
